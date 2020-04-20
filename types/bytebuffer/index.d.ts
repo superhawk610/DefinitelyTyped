@@ -3,6 +3,7 @@
 // Definitions by: Denis Cappellin <https://github.com/cappellin>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // Definitions by: SINTEF-9012 <https://github.com/SINTEF-9012>
+// Definitions by: Marek Urbanowicz <https://github.com/murbanowicz>
 
 /// <reference types="node" />
 import Long = require("long");
@@ -316,7 +317,8 @@ declare class ByteBuffer
     /**
      * Reads a NULL-terminated UTF8 encoded string. For this to work the string read must not contain any NULL characters itself.
      */
-    readCString( offset?: number ): string;
+    readCString(): string;
+    readCString( offset: number ): { string: string, length: number};
 
     /**
      * Reads a 64bit float. This is an alias of ByteBuffer#readFloat64.
@@ -341,7 +343,8 @@ declare class ByteBuffer
     /**
      * Reads a length as uint32 prefixed UTF8 encoded string.
      */
-    readIString( offset?: number ): string | { string: string; length: number };
+    readIString(): string;
+    readIString( offset: number ): { string: string; length: number };
 
     /**
      * Reads a 32bit signed integer.This is an alias of ByteBuffer#readInt32.
@@ -381,12 +384,14 @@ declare class ByteBuffer
     /**
      * Reads an UTF8 encoded string. This is an alias of ByteBuffer#readUTF8String.
      */
-    readString( length: number, metrics?: number, offset?: number ): string;
+    readString( length: number, metrics?: number): string;
+    readString( length: number, metrics: number, offset: number ): { string: string; length: number };
 
     /**
      * Reads an UTF8 encoded string.
      */
-    readUTF8String( chars: number, metrics?: number, offset?: number ): string | { string: string; length: number };
+    readUTF8String( chars: number, metrics?: number): string;
+    readUTF8String( chars: number, metrics: number, offset: number ): { string: string; length: number };
 
     /**
      * Reads a 16bit unsigned integer.
@@ -410,27 +415,32 @@ declare class ByteBuffer
     /**
      * Reads a length as varint32 prefixed UTF8 encoded string.
      */
-    readVString( offset?: number ): string;
+    readVString(  ): string;
+    readVString( offset: number ): { string: string; length: number };
 
     /**
      * Reads a 32bit base 128 variable-length integer.
      */
-    readVarint32( offset?: number ): number;
+    readVarint32( ): number;
+    readVarint32( offset: number ): { value: number; length: number };
 
     /**
      * Reads a zig-zag encoded 32bit base 128 variable-length integer.
      */
-    readVarint32ZigZag( offset?: number ): number;
+    readVarint32ZigZag( ): number;
+    readVarint32ZigZag( offset: number ): { value: number; length: number };
 
     /**
      * Reads a 64bit base 128 variable-length integer. Requires Long.js.
      */
-    readVarint64( offset?: number ): Long;
+    readVarint64( ): Long;
+    readVarint64( offset: number ): { value: Long; length: number };
 
     /**
      * Reads a zig-zag encoded 64bit base 128 variable-length integer. Requires Long.js.
      */
-    readVarint64ZigZag( offset?: number ): Long;
+    readVarint64ZigZag( ): Long;
+    readVarint64ZigZag( offset: number ): { value: Long; length: number };
 
     /**
      * Gets the number of remaining readable bytes. Contents are the bytes between ByteBuffer#offset and ByteBuffer#limit, so this returns limit - offset.
@@ -587,12 +597,14 @@ declare class ByteBuffer
     /**
      * Writes an UTF8 encoded string. This is an alias of ByteBuffer#writeUTF8String.
      */
-    writeString( str: string, offset?: number ): ByteBuffer | number;
+    writeString( str: string): ByteBuffer;
+    writeString( str: string, offset: number ): number;
 
     /**
      * Writes an UTF8 encoded string.
      */
-    writeUTF8String( str: string, offset?: number ): ByteBuffer | number;
+    writeUTF8String( str: string): ByteBuffer;
+    writeUTF8String( str: string, offset?: number ): number;
 
     /**
      * Writes a 16bit unsigned integer.
